@@ -10,7 +10,7 @@ def main():
     # --- CONFIGURATION ---
     # ==========================================
     # MODE can be "TRAIN" or "PLAY"
-    MODE = "TRAIN" 
+    MODE = "PLAY" 
     
     # RENDER_TRAINING: Set to True to watch the agent learn (Very slow!)
     # Only applies if MODE is "TRAIN".
