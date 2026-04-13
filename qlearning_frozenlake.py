@@ -4,18 +4,19 @@ import matplotlib.pyplot as plt
 import math
 import time
 import os
+import seaborn as sns
 
 def main():
     # ==========================================
     # --- CONFIGURATION ---
     # ==========================================
     # MODE can be "TRAIN" or "PLAY"
-    MODE = "PLAY" 
+    MODE = "TRAIN"
     
     # RENDER_TRAINING: Set to True to watch the agent learn (Very slow!)
     # Only applies if MODE is "TRAIN".
     RENDER_TRAINING = False  
-    IS_SLIPPERY = False
+    IS_SLIPPERY = True
     QTABLE_FILE = "qtable.txt"
     
     # 1. Environment Initialization
@@ -104,7 +105,8 @@ def main():
             
             # Save the table at the end of EACH EPISODE
             np.savetxt(QTABLE_FILE, qtable, fmt="%.4f", delimiter="\t", header=header)
-            
+            np.save("qtable.npy", qtable)
+
         print("Training finished.")
         env.close()
 
@@ -142,8 +144,14 @@ def main():
                 print("Result: Success! Reached the goal.")
             else:
                 print("Result: Failed. Fell into a hole.")
-                
+
         env.close()
+
+        # ===Heatmap generation
+        max_q = np.max(qtable, axis=1).reshape(4, 4)
+        sns.heatmap(max_q, annot=True, cmap="Blues")
+        plt.title("Max Q-Table Heatmap")
+        plt.show()
 
 if __name__ == "__main__":
     main()
